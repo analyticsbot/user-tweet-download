@@ -15,7 +15,8 @@
 <ul>
 <li>Install the necessary dependencies</li>
 <li>Create a folder with the twitter user name or any suitable name</li>
-<li>Run the program</li>
+<li>Copy all files into the same directory</li>
+<li>Run the program - download_tweets_user.ipynb or download_tweets_user.py</li>
 </ul>
 <p><strong>What happens when the program is run?</strong></p>
 <p>The code first uses the API to fetch the most recent 3200 tweets and then use selenium to distribute any other tweets on the worker nodes based on the dates</p>
