@@ -7,7 +7,8 @@
 <p><strong>Timeline of Mr. Donald Trump, President of the USA</strong></p>
 <p></p>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/UQQjNLOMzKc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+[![User Tweet Download](Snapshot.jpg)](https://www.youtube.com/watch?v=UQQjNLOMzKc&feature=youtu.be "User Tweet Download")
+
 
 <p><strong>Note: </strong>Please use at your own discretion. I used this code to pull data for 2 twitter handles for research purposes. Twitter provides API to download tweets</p>
 <p><strong>Download User tweets</strong></p>
