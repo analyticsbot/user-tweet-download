@@ -1,5 +1,3 @@
 requests
-zipfile
 tweepy
 selenium
-dateutil
