@@ -7,7 +7,7 @@
 <p><strong>Timeline of Mr. Donald Trump, President of the USA</strong></p>
 <p></p>
 
-[![User Tweet Download](Snapshot.jpg)](https://www.youtube.com/watch?v=UQQjNLOMzKc&feature=youtu.be "User Tweet Download")
+[![User Tweet Download](Snapshot.png)](https://www.youtube.com/watch?v=UQQjNLOMzKc&feature=youtu.be "User Tweet Download")
 
 
 <p><strong>Note: </strong>Please use at your own discretion. I used this code to pull data for 2 twitter handles for research purposes. Twitter provides API to download tweets</p>
