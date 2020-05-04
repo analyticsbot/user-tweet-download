@@ -344,15 +344,16 @@ def get_data_twitter_selenium(DAYS_THREAD, BROWSER, driver_path, TIME_SLEEP, TIM
 
             browser.execute_script("return document.body.scrollHeight")
             time.sleep(6)
-            df_url.loc[df_url.shape[0]+1] = [tweet_text_material.split('\n')[1][1:], NEW_TWITTER_URL, since, until]
+            
         
             if random.randint(1,100)==9:
                 print (THREAD, 'alive....')
-            
+        df_url.loc[df_url.shape[0]+1] = [tweet_text_material.split('\n')[1][1:], NEW_TWITTER_URL, since, until]    
     df['screen_name'] = tweet_text_material.split('\n')[1][1:]
     df['language'] = ''
     df.drop_duplicates(inplace=True)
     df.to_csv(TWITTER_USER_NAME + '_' + OUTPUT_FILE_NAME_SUFFIX + '_' + str(filename) +  '_TWEETS_BROWSER.csv', index=False)
+    df_url.to_csv(TWITTER_USER_NAME + '_' + OUTPUT_FILE_NAME_SUFFIX + '_TWEETS_BROWSER_URLS.csv', index=False)
     browser.close()
                     
 ## distribute work using multiprocessing
