@@ -9,20 +9,20 @@
 <p><strong>Requirements</strong></p>
 <ul>
 <li>requests</li>
-<li>zipfile</li>
 <li>tweepy</li>
 <li>selenium</li>
-<li>dateutil</li>
+<li>pandas</li>
 </ul>
 <h4>How to Run?</h4>
 <ul>
 <li>Install the necessary dependencies</li>
 <li>Create a folder with the twitter user name or any suitable name</li>
 <li>Copy all files into the same directory</li>
+<li>Make changes to the config.py files - </li>
 <li>Run the program - download_tweets_user.ipynb or download_tweets_user.py</li>
 </ul>
 <p><strong>What happens when the program is run?</strong></p>
-<p>The code first uses the API to fetch the most recent 3200 tweets and then use selenium to distribute any other tweets on the worker nodes based on the dates</p>
+<p>The code first uses the API to fetch the most recent 3200 tweets and then uses selenium to distribute any other tweets on the worker nodes based on the dates</p>
 <h4>What datapoints are provided?</h4>
 <ul>
 <li>
@@ -49,8 +49,8 @@
 <li>
 <pre>If a video was attached to the tweet, how many times it is viewed - denoted by video_views</pre>
 </li>
-<li>The twitter username - denoted by screen_name</li>
-<li>The language of the tweet - denoted by language</li>
+<li><pre>The twitter username - denoted by screen_name</pre></li>
+<li><pre>The language of the tweet - denoted by language</pre></li>
 </ul>
 <h4>Tradeoffs</h4>
 <p>Chrome and Firefox, both can be used to download the selenium part of the tweets. Adding more threads to them can make the process faster, but can give rise to issues such as getting throttled by Twitter or too many browsers eating a lot of RAM. The number of threads need to be optimized for the workload as explained below</p>
