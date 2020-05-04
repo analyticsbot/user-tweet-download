@@ -7,6 +7,8 @@
 <p><strong>Timeline of Mr. Donald Trump, President of the USA</strong></p>
 <p></p>
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/UQQjNLOMzKc" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
 <p><strong>Note: </strong>Please use at your own discretion. I used this code to pull data for 2 twitter handles for research purposes. Twitter provides API to download tweets</p>
 <p><strong>Download User tweets</strong></p>
 <p>This code can be used to download a User's weets from Twitter.com. This can help to bypass the 3200 limit that is put in by the Twitter API. The code is provided as a Jupyter notebook and as Python file.</p>
