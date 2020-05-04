@@ -1,7 +1,11 @@
 # user-tweet-download
 
 <img src="Narendra Modi Twitter page.png" alt="Narendra Modi Twitter page">
+<p><strong>Timeline of Mr. Narendra Modi, Prime Minister of India</strong></p>
+<p></p>
 <img src="Donald Trump home page snapshot.png" alt="Donald Trump home page snapshot">
+<p><strong>Timeline of Mr. Donald Trump, President of the USA</strong></p>
+<p></p>
 
 <p><strong>Note: </strong>Please use at your own discretion. I used this code to pull data for 2 twitter handles for research purposes. Twitter provides API to download tweets</p>
 <p><strong>Download User tweets</strong></p>
