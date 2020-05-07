@@ -87,7 +87,7 @@
 <td>
 <p>Number of tweets to download for the user.&nbsp;</p>
 <p>The earlier of&nbsp;</p>
-<p>NUM_TWEETS_TO_DOWNLOAD, DATE_IN_PAST and&nbsp;DAYS_IN_PAST is used when there is a conflict</p>
+<p>NUM_TWEETS_TO_DOWNLOAD, DATE_IN_PAST and&nbsp;DAYS_IN_PAST is used when there is a conflict. If this value is less than 3200, tweets only with the API are downloaded. Please keep this value more than 3200 to download all available tweets</p>
 </td>
 <td>100</td>
 </tr>
