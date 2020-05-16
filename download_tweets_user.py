@@ -15,7 +15,6 @@ import time
 import pandas as pd
 from datetime import datetime, timedelta
 from sys import platform
-import struct
 import zipfile
 import requests
 import configparser
@@ -36,8 +35,7 @@ elif platform == "darwin":
     sys_platform = 'macos'
 elif platform == "win32":
     sys_platform = 'windows'
-    
-bit_system = struct.calcsize("P") * 8
+
 config = configparser.ConfigParser()
 config.read('config.py')
 
@@ -93,7 +91,7 @@ TODAY_DATE = datetime.now(USER_CREATED_DATE.tzinfo)
 if not DATE_IN_PAST and not str(DAYS_IN_PAST).isdigit():
     print ('Either DATE_IN_PAST or DAYS_IN_PAST need to be given')
     sys.exit(1)
-    
+
 try:
     DATE_IN_PAST_PARSED = parse(DATE_IN_PAST)
     DATE_IN_PAST_PARSED = pytz.utc.localize(DATE_IN_PAST_PARSED)
@@ -184,7 +182,7 @@ def tweet_object(tweet_objects):
 
             df.loc[df.shape[0]+1] = [screen_name, text, created_date, retweet_count, favorite_count, \
                      replies_count, tweet_url, language, video_url, video_views]
-            
+
     return df
 
 
@@ -200,7 +198,7 @@ last_tweet_date = parse(df_api.loc[df_api.shape[0]]['created_date'])
 
 if OUTPUT_FILE_NAME_SUFFIX == 'None':
     OUTPUT_FILE_NAME_SUFFIX = ''
-    
+
 if NUM_TWEETS_TO_DOWNLOAD < 3200:
     df_api.to_csv(TWITTER_USER_NAME + '_' + OUTPUT_FILE_NAME_SUFFIX + '_TWEETS.csv', index=False)
     print ('Tweets for user = ', TWITTER_USER_NAME, 'downoaded. Filename = ', TWITTER_USER_NAME + '_' + OUTPUT_FILE_NAME_SUFFIX + '_TWEETS.csv')
@@ -208,7 +206,7 @@ if NUM_TWEETS_TO_DOWNLOAD < 3200:
     START_DAY = 0
     END_DAY = NEW_DAYS_IN_PAST
     GET_REPLIES_COUNT = True
-    
+
 else:
     START_DAY = 0
     END_DAY = NEW_DAYS_IN_PAST
@@ -226,13 +224,13 @@ if driver_paths['chrome']:
         NUM_THREADS_CHROME = 1
 else:
     NUM_THREADS_CHROME = 0
-    
+
 if driver_paths['firefox']:
     if NUM_THREADS_FIREFOX == 0:
         NUM_THREADS_FIREFOX = 1
 else:
     NUM_THREADS_FIREFOX = 0
-        
+
 def split(seq, num):
     avg = len(seq)/ float(num)
     out = []
@@ -264,10 +262,10 @@ def get_data_twitter_selenium(DAYS_THREAD, BROWSER, driver_path, TIME_SLEEP, TIM
         TIME_SLEEP - sleep time between url loads
         TIME_SLEEP_BROWSER_CLOSE - sleep time between browser exit and start
         THREAD - thread number
-        
+
     Returns:
         None
-        
+
     Output:
         CSV file containing data acquired by this thread
     """
@@ -275,7 +273,7 @@ def get_data_twitter_selenium(DAYS_THREAD, BROWSER, driver_path, TIME_SLEEP, TIM
         browser = webdriver.Chrome(executable_path = driver_path)
     else:
         browser = webdriver.Firefox(executable_path = driver_path)
-        
+
     df = pd.DataFrame(columns=['tweet_text_material', 'text', 'replies_count', 'retweet_count', 'favorite_count', 'tweet_url',\
                         'created_date', 'video_url', 'video_views'])
     df_url = pd.DataFrame(columns=['screen_name', 'url', 'start_date', 'end_date'])
@@ -286,7 +284,7 @@ def get_data_twitter_selenium(DAYS_THREAD, BROWSER, driver_path, TIME_SLEEP, TIM
         since = (datetime.today() - timedelta(days=days_to_subtract+1)).strftime('%Y-%m-%d')
         NEW_TWITTER_URL = TWITTER_URL.replace('{until}', until).replace('{since}', since)
         print (NEW_TWITTER_URL)
-        
+
         if (days_to_subtract+1)%5==0:
             browser.close()
             time.sleep(TIME_SLEEP_BROWSER_CLOSE)
@@ -318,7 +316,7 @@ def get_data_twitter_selenium(DAYS_THREAD, BROWSER, driver_path, TIME_SLEEP, TIM
                 tweet_text, replies, rts, favs = ' '.join(tweet_text_material.split('\n')[4:-4]), tweet_text_material.split('\n')[-3], tweet_text_material.split('\n')[-2], tweet_text_material.split('\n')[-1]
                 tweet_url = tweet_div_other[i].get_attribute('href')
                 tweet_date = tweet_div_other[i].get_attribute('title')
-                
+
 
                 try:
                     video_views = tweet_div[i].find_element_by_css_selector('.css-901oao.css-16my406.r-lrvibr').text
@@ -328,9 +326,9 @@ def get_data_twitter_selenium(DAYS_THREAD, BROWSER, driver_path, TIME_SLEEP, TIM
                     video_url = tweet_div[i].find_element_by_tag_name('video').get_attribute('src')
                 except:
                     video_url = 'None'
-           
+
                 df.loc[df.shape[0]+1] = [tweet_text_material, tweet_text, replies, rts, favs, tweet_url, tweet_date, video_url, video_views]
-                
+
                 if df.shape[0]>200:
                     df['screen_name'] = tweet_text_material.split('\n')[1][1:]
                     df['language'] = ''
@@ -344,18 +342,18 @@ def get_data_twitter_selenium(DAYS_THREAD, BROWSER, driver_path, TIME_SLEEP, TIM
 
             browser.execute_script("return document.body.scrollHeight")
             time.sleep(6)
-            
-        
+
+
             if random.randint(1,100)==9:
                 print (THREAD, 'alive....')
-        df_url.loc[df_url.shape[0]+1] = [tweet_text_material.split('\n')[1][1:], NEW_TWITTER_URL, since, until]    
+        df_url.loc[df_url.shape[0]+1] = [tweet_text_material.split('\n')[1][1:], NEW_TWITTER_URL, since, until]
     df['screen_name'] = tweet_text_material.split('\n')[1][1:]
     df['language'] = ''
     df.drop_duplicates(inplace=True)
     df.to_csv(TWITTER_USER_NAME + '_' + OUTPUT_FILE_NAME_SUFFIX + '_' + str(filename) +  '_TWEETS_BROWSER.csv', index=False)
     df_url.to_csv(TWITTER_USER_NAME + '_' + OUTPUT_FILE_NAME_SUFFIX + '_TWEETS_BROWSER_URLS.csv', index=False)
     browser.close()
-                    
+
 ## distribute work using multiprocessing
 
 threads = []
@@ -368,7 +366,7 @@ for i in range(NUMBER_THREADS):
                                                                               'THREAD': i+1})
     threads.append(th)
     th.start()
-    
+
 for th in threads:
     th.join()
 
@@ -388,9 +386,9 @@ for f in files:
             temp.drop('Unnamed: 0.1', inplace=True, axis=1)
         except:
             pass
-        
+
         df_browser = pd.concat([df_browser, temp], axis=0)
-        
+
 df_browser.to_csv(TWITTER_USER_NAME + '_' + OUTPUT_FILE_NAME_SUFFIX +  '_TWEETS_BROWSER.csv', index=False)
 
 
@@ -405,7 +403,7 @@ if GET_REPLIES_COUNT:
     df_api['tweet_id'] = df_api['tweet_url'].apply(lambda x:int(x.split('/')[-1][:-1]))
     df_browser['tweet_id'] = df_browser['tweet_url'].apply(lambda x:int(x.split('/')[-1][:-1]))
     df_api = df_api.join(df_browser[['replies_count', 'tweet_url']], how='inner', on=['tweet_id'], lsuffix='_api', rsuffix='_browser')
-    
+
     df_api.to_csv(TWITTER_USER_NAME + '_' + OUTPUT_FILE_NAME_SUFFIX +  '_TWEETS_API.csv', index=False)
 else:
     tweet_urls = df_browser['tweet_url'].tolist()
