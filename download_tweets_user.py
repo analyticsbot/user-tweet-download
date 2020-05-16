@@ -90,7 +90,7 @@ except Exception as e:
 USER_CREATED_DATE = parse(api.get_user(TWITTER_USER_NAME)._json['created_at'])
 TODAY_DATE = datetime.now(USER_CREATED_DATE.tzinfo)
 
-if not DATE_IN_PAST_PARSED and not str(DAYS_IN_PAST).isdigit():
+if not DATE_IN_PAST and not str(DAYS_IN_PAST).isdigit():
     print ('Either DATE_IN_PAST or DAYS_IN_PAST need to be given')
     sys.exit(1)
     
