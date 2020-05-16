@@ -219,6 +219,8 @@ print (NUM_THREADS_FIREFOX, NUM_THREADS_CHROME)
 ## logic to handle number of threads depending on the config file. More in the Readme file
 ## https://github.com/analyticsbot/user-tweet-download/blob/master/README.md
 
+driver_paths = helpers.getPathDriver(config, sys_platform)
+
 if driver_paths['chrome']:
     if NUM_THREADS_CHROME == 0:
         NUM_THREADS_CHROME = 1
