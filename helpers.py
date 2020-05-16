@@ -1,4 +1,4 @@
-import requests, os, zipfile, stat, struct
+import requests, os, shutil, stat, struct
 
 def getPathDriver(config, sys_platform):
 	CURRENT_WKD = os.getcwd()
@@ -16,18 +16,7 @@ def getPathDriver(config, sys_platform):
 		elif sys_platform == 'windows':
 			driver_url = config['CHROME']['windows']
 
-		# download
-		r = requests.get(driver_url, allow_redirects=True)
-		open(os.path.join(CURRENT_WKD, driver_url.split('/')[-1]), 'wb').write(r.content)
-		r.close()
-
-		# unzip
-		with zipfile.ZipFile(os.path.join(CURRENT_WKD, driver_url.split('/')[-1]), 'r') as zip_ref:
-			zip_ref.extractall(CURRENT_WKD)
-
-		path_to_driver = os.path.join(CURRENT_WKD, 'chromedriver')
-		os.chmod(path_to_driver, stat.S_IXUSR)
-
+		path_to_driver = downloadAndExtract(driver_url, 'chromedriver')
 
 	elif config['CHROME'].getboolean('USE_CHROME') and config['CHROME']['CHROME_GECKODRIVER_LOCATION']:
 		path_to_driver = config['CHROME']['CHROME_GECKODRIVER_LOCATION']
@@ -49,16 +38,7 @@ def getPathDriver(config, sys_platform):
 		elif sys_platform == 'windows' and bit_system == 64:
 			driver_url = config['FIREFOX']['windows64']
 
-		# download
-		r = requests.get(driver_url, allow_redirects=True)
-		open(os.path.join(CURRENT_WKD, driver_url.split('/')[-1]), 'wb').write(r.content)
-		r.close()
-
-		# unzip
-		with zipfile.ZipFile(os.path.join(CURRENT_WKD, driver_url.split('/')[-1]), 'r') as zip_ref:
-			zip_ref.extractall(CURRENT_WKD)
-		path_to_driver = os.path.join(CURRENT_WKD, 'geckodriver')
-		os.chmod(path_to_driver, stat.S_IXUSR)
+		path_to_driver = downloadAndExtract(driver_url, 'geckodriver')
 
 
 	elif config['FIREFOX'].getboolean('USE_FIREFOX') and config['FIREFOX']['FIREFOX_GECKODRIVER_LOCATION']:
@@ -69,3 +49,31 @@ def getPathDriver(config, sys_platform):
 	paths['firefox'] = path_to_driver
 
 	return paths
+
+
+# Download and extract a browser driver archive
+def downloadAndExtract(url, driver_name):
+	arc_path = os.path.join(os.getcwd(), url.split('/')[-1])
+
+	driver_dir = os.path.join(os.getcwd(), 'drivers')
+	driver_path = os.path.join(driver_dir, driver_name)
+
+	# Check if the driver is already present
+	if not os.path.exists(driver_path):
+
+		# Download the file
+		r = requests.get(url, allow_redirects=True)
+		open(arc_path, 'wb').write(r.content)
+		r.close()
+
+		# Extract the archive
+		shutil.unpack_archive(arc_path, driver_dir)
+
+		# Change permissions
+		os.chmod(driver_path, stat.S_IXUSR)
+
+		# Delete downloaded archive
+		os.remove(arc_path)
+
+	# Return the path of the driver
+	return driver_path
