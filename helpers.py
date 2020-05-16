@@ -1,9 +1,12 @@
-import requests, os, zipfile, stat
+import requests, os, zipfile, stat, struct
 
 def getPathDriver(config, sys_platform):
 	CURRENT_WKD = os.getcwd()
 	print ('CURRENT_WKD', CURRENT_WKD)
 	paths = {}
+
+	bit_system = struct.calcsize("P") * 8
+
 	# handle chrome
 	if config['CHROME'].getboolean('USE_CHROME') and config['CHROME']['CHROME_GECKODRIVER_LOCATION'] == 'None':
 		if sys_platform == 'linux':
@@ -21,7 +24,7 @@ def getPathDriver(config, sys_platform):
 		# unzip
 		with zipfile.ZipFile(os.path.join(CURRENT_WKD, driver_url.split('/')[-1]), 'r') as zip_ref:
 			zip_ref.extractall(CURRENT_WKD)
-		
+
 		path_to_driver = os.path.join(CURRENT_WKD, 'chromedriver')
 		os.chmod(path_to_driver, stat.S_IXUSR)
 
@@ -32,7 +35,7 @@ def getPathDriver(config, sys_platform):
 		path_to_driver = False
 
 	paths['chrome'] = path_to_driver
-	
+
 	# handle firefox
 	if config['FIREFOX'].getboolean('USE_FIREFOX') and config['FIREFOX']['FIREFOX_GECKODRIVER_LOCATION'] == 'None':
 		if sys_platform == 'linux' and bit_system == 32:
