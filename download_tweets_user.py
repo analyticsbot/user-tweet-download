@@ -279,11 +279,14 @@ def get_data_twitter_selenium(DAYS_THREAD, BROWSER, driver_path, TIME_SLEEP, TIM
     df = pd.DataFrame(columns=['tweet_text_material', 'text', 'replies_count', 'retweet_count', 'favorite_count', 'tweet_url',\
                         'created_date', 'video_url', 'video_views'])
     df_url = pd.DataFrame(columns=['screen_name', 'url', 'start_date', 'end_date'])
+
     filename = 0
     num_tweets = 0
+
     for days_to_subtract in DAYS_THREAD:
         until = (datetime.today() - timedelta(days=days_to_subtract)).strftime('%Y-%m-%d')
         since = (datetime.today() - timedelta(days=days_to_subtract+1)).strftime('%Y-%m-%d')
+
         NEW_TWITTER_URL = TWITTER_URL.replace('{until}', until).replace('{since}', since)
         print (NEW_TWITTER_URL)
 
@@ -300,14 +303,13 @@ def get_data_twitter_selenium(DAYS_THREAD, BROWSER, driver_path, TIME_SLEEP, TIM
 
         last_20_tweets = ['NA']*20
         for i in range(10):
-            tweet_div = browser.find_elements_by_css_selector('.css-1dbjc4n.r-my5ep6.r-qklmqi.r-1adg3ll')
-            tweet_div_other = browser.find_elements_by_css_selector('.css-4rbku5.css-18t94o4.css-901oao.r-1re7ezh.r-1loqt21.r-1q142lx.r-1qd0xha.r-a023e6.r-16dba41.r-ad9z0x.r-bcqeeo.r-3s2u2q.r-qvutc0')
-            length = len(tweet_div_other)
+            the_tweet = browser.find_elements_by_tag_name('article')
+            the_tweet_meta = browser.find_elements_by_xpath("//article//time/parent::a")
             break_ = False
 
-            for i in range(length):
+            for i in range(len(the_tweet)):
                 num_tweets+=1
-                tweet_text_material = tweet_div[i].text
+                tweet_text_material = the_tweet[i].text
                 if tweet_text_material in last_20_tweets:
                     break_ = True
                     break
@@ -316,16 +318,17 @@ def get_data_twitter_selenium(DAYS_THREAD, BROWSER, driver_path, TIME_SLEEP, TIM
                 last_20_tweets[0] = tweet_text_material
 
                 tweet_text, replies, rts, favs = ' '.join(tweet_text_material.split('\n')[4:-4]), tweet_text_material.split('\n')[-3], tweet_text_material.split('\n')[-2], tweet_text_material.split('\n')[-1]
-                tweet_url = tweet_div_other[i].get_attribute('href')
-                tweet_date = tweet_div_other[i].get_attribute('title')
+                tweet_url = the_tweet_meta[i].get_attribute('href')
+                tweet_date = the_tweet_meta[i].get_attribute('title')
 
 
                 try:
-                    video_views = tweet_div[i].find_element_by_css_selector('.css-901oao.css-16my406.r-lrvibr').text
+                    video_views = the_tweet[i].find_element_by_css_selector('.css-901oao.css-16my406.r-lrvibr').text
                 except:
                     video_views = 'None'
+
                 try:
-                    video_url = tweet_div[i].find_element_by_tag_name('video').get_attribute('src')
+                    video_url = the_tweet[i].find_element_by_tag_name('video').get_attribute('src')
                 except:
                     video_url = 'None'
 
@@ -345,9 +348,9 @@ def get_data_twitter_selenium(DAYS_THREAD, BROWSER, driver_path, TIME_SLEEP, TIM
             browser.execute_script("return document.body.scrollHeight")
             time.sleep(6)
 
-
             if random.randint(1,100)==9:
                 print (THREAD, 'alive....')
+
         df_url.loc[df_url.shape[0]+1] = [tweet_text_material.split('\n')[1][1:], NEW_TWITTER_URL, since, until]
     df['screen_name'] = tweet_text_material.split('\n')[1][1:]
     df['language'] = ''
