@@ -199,14 +199,6 @@ def tweet_object(tweet_objects):
 
 df_api = tweet_object(tweet_objects)
 
-df_api.shape
-
-df_api.head()
-
-## logic to find the last tweet's date from the API response
-
-last_tweet_date = parse(df_api.loc[df_api.shape[0]]['created_date'])
-
 if OUTPUT_FILE_NAME_SUFFIX == 'None':
     OUTPUT_FILE_NAME_SUFFIX = ''
 
@@ -223,9 +215,6 @@ else:
     END_DAY = NEW_DAYS_IN_PAST
     GET_REPLIES_COUNT = False
 
-## number of the firefox, chrome threads
-
-print (NUM_THREADS_FIREFOX, NUM_THREADS_CHROME)
 
 ## logic to handle number of threads depending on the config file. More in the Readme file
 ## https://github.com/analyticsbot/user-tweet-download/blob/master/README.md
@@ -436,4 +425,3 @@ df_api_2['tweet_id'] = df_api_2['tweet_url'].apply(lambda x:int(x.split('/')[-1]
 df_browser['tweet_id'] = df_browser['tweet_url'].apply(lambda x:int(x.split('/')[-1][:-1]))
 df_api_2 = df_api_2.join(df_browser[['replies_count', 'tweet_id']], how='inner', on='tweet_id', lsuffix='api', rsuffix='browser_')
 df_browser.to_csv(TWITTER_USER_NAME + '_' + OUTPUT_FILE_NAME_SUFFIX +  '_TWEETS_API_BROWSER.csv', index=False)
-
