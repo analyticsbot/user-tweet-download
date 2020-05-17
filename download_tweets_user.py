@@ -131,10 +131,11 @@ def tweet_object(tweet_objects):
     count_tweets = 0
     break_loop = False
 
-    for tweet_object in tweet_objects:
+    for tweets in tweet_objects:
         if break_loop:
             break
-        for tweet in tweet_object:
+
+        for tweet in tweets:
             count_tweets +=1
             if count_tweets > NUM_TWEETS_TO_DOWNLOAD:
                 break_loop = True
@@ -144,38 +145,47 @@ def tweet_object(tweet_objects):
                 screen_name = tweet['user']['screen_name']
             except:
                 screen_name = 'NA'
+
             try:
                 text = tweet['full_text']
             except:
                 text = 'NA'
+
             try:
                 created_date = tweet['created_at']
             except:
                 created_date = 'NA'
+
             try:
                 retweet_count = tweet['retweet_count']
             except:
                 retweet_count = 'NA'
+
             try:
                 favorite_count = tweet['favorite_count']
             except:
                 favorite_count = 'NA'
+
             try:
                 replies_count = tweet['created_at']
             except:
                 replies_count = 'NA'
+
             try:
                 tweet_url = 'https://twitter.com/' + screen_name + '/status/' + tweet['id_str']
             except:
                 tweet_url = 'NA'
+
             try:
                 language = tweet['lang']
             except:
                 language = 'NA'
+
             try:
                 video_url = tweet['entities']['urls'][0]['expanded_url']
             except:
                 video_url = 'NA'
+
             try:
                 video_views = 'NA'
             except:
