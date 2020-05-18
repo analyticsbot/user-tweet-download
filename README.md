@@ -244,3 +244,17 @@
 </table>
 <p><strong>Discuss</strong></p>
 <p>Feel free to post any questions or comments or bugs. Twitter UI changes from time to time and hence the selenium part might break</p>
+
+---
+
+# References
+
+### Twitter Search:
+Regular Syntax: https://twitter.com/search-advanced
+
+Advanced Syntax: https://help.twitter.com/en/using-twitter/advanced-tweetdeck-features
+
+### Tweepy API
+API Reference: http://docs.tweepy.org/en/latest/api.html
+
+Cursor Tutorial: http://docs.tweepy.org/en/latest/cursor_tutorial.html
