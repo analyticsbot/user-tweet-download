@@ -1,11 +1,20 @@
 import requests, os, shutil, stat, struct
+from sys import platform
 
-def getPathDriver(config, sys_platform):
-	CURRENT_WKD = os.getcwd()
-	print ('CURRENT_WKD', CURRENT_WKD)
-	paths = {}
+def getPathDriver(config):
 
+	# Figure out the system platform
+	if platform == "linux" or platform == "linux2":
+		sys_platform = 'linux'
+	elif platform == "darwin":
+		sys_platform = 'macos'
+	elif platform == "win32":
+		sys_platform = 'windows'
+
+	# Figure out the system architecture
 	bit_system = struct.calcsize("P") * 8
+
+	paths = {}
 
 	# handle chrome
 	if config['CHROME'].getboolean('USE_CHROME') and config['CHROME']['CHROME_GECKODRIVER_LOCATION'] == 'None':

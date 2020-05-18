@@ -14,7 +14,6 @@ from selenium import webdriver
 import time
 import pandas as pd
 from datetime import datetime, timedelta
-from sys import platform
 import zipfile
 import requests
 import configparser
@@ -28,14 +27,7 @@ import os
 from importlib import reload
 reload( helpers )
 
-## determine the platform and bit of the platform, load the config file
-
-if platform == "linux" or platform == "linux2":
-    sys_platform = 'linux'
-elif platform == "darwin":
-    sys_platform = 'macos'
-elif platform == "win32":
-    sys_platform = 'windows'
+## load the config file
 
 config = configparser.ConfigParser()
 config.read('config.py')
@@ -219,7 +211,7 @@ else:
 ## logic to handle number of threads depending on the config file. More in the Readme file
 ## https://github.com/analyticsbot/user-tweet-download/blob/master/README.md
 
-driver_paths = helpers.getPathDriver(config, sys_platform)
+driver_paths = helpers.getPathDriver(config)
 
 if driver_paths['chrome']:
     if NUM_THREADS_CHROME == 0:
