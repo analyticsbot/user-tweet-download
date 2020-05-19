@@ -14,8 +14,6 @@ from selenium import webdriver
 import time
 import pandas as pd
 from datetime import datetime, timedelta
-import zipfile
-import requests
 import configparser
 from dateutil.parser import parse
 import multiprocessing
@@ -336,12 +334,6 @@ def get_data_twitter_selenium(DAYS_THREAD, BROWSER, driver_path, TIME_SLEEP, TIM
                         'created_date', 'video_url', 'video_views'])
             if break_:
                 break
-
-            browser.execute_script("return document.body.scrollHeight")
-            time.sleep(6)
-
-            if random.randint(1,100)==9:
-                print (THREAD, 'alive....')
 
         df_url.loc[df_url.shape[0]+1] = [tweet_text_material.split('\n')[1][1:], NEW_TWITTER_URL, since, until]
     df['screen_name'] = tweet_text_material.split('\n')[1][1:]
