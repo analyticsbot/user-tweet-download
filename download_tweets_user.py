@@ -78,7 +78,6 @@ auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
 # Check authentication went okay
-
 assert api.verify_credentials()
 try:
     api.verify_credentials()
@@ -87,20 +86,19 @@ except Exception as e:
     print("Error during authentication", str(e))
 
 ## logic to determine the until when the data is to be parsed
-
 USER_CREATED_DATE = parse(api.get_user(TWITTER_USER_NAME)._json['created_at'])
 TODAY_DATE = datetime.now(USER_CREATED_DATE.tzinfo)
 
 if not DATE_IN_PAST and not str(DAYS_IN_PAST).isdigit():
     print ('Either DATE_IN_PAST or DAYS_IN_PAST need to be given')
     sys.exit(1)
-
 try:
     DATE_IN_PAST_PARSED = parse(DATE_IN_PAST)
     DATE_IN_PAST_PARSED = pytz.utc.localize(DATE_IN_PAST_PARSED)
 except Exception as e:
     print (str(e))
     DATE_IN_PAST_PARSED = False
+
 if DATE_IN_PAST_PARSED:
     if (TODAY_DATE - DATE_IN_PAST_PARSED).days > DAYS_IN_PAST:
         NEW_DAYS_IN_PAST = (TODAY_DATE - DATE_IN_PAST_PARSED).days
@@ -116,7 +114,6 @@ if DATE_IN_PAST_PARSED:
         NEW_DAYS_IN_PAST = (TODAY_DATE - USER_CREATED_DATE).days
 
 ## get most recent 3200 tweets via Twitter API
-
 tweet_objects = []
 
 for page in tweepy.Cursor(api.user_timeline, id=TWITTER_USER_NAME, tweet_mode='extended', \
@@ -124,7 +121,6 @@ for page in tweepy.Cursor(api.user_timeline, id=TWITTER_USER_NAME, tweet_mode='e
     tweet_objects.append(page)
 
 ## convert the API response to a CSV file
-
 tweets_column = ['screen_name', 'text', 'created_date', 'retweet_count', 'favorite_count', \
                  'replies_count', 'tweet_url', 'language', 'video_url', 'video_views']
 
@@ -245,7 +241,6 @@ def split(seq, num):
     return out
 
 ## distribute the selenium work into number of threads
-
 ALL_DAYS = range(START_DAY, END_DAY)
 
 NUMBER_THREADS = NUM_THREADS_CHROME + NUM_THREADS_FIREFOX
@@ -256,7 +251,6 @@ BROWSER_TYPE = ['chrome']*NUM_THREADS_CHROME + ['firefox']*NUM_THREADS_FIREFOX
 ALL_DAYS, NUMBER_THREADS, distributed_days, BROWSER_TYPE
 
 ## function to download tweet data using selenium
-
 def get_data_twitter_selenium(DAYS_THREAD, BROWSER, driver_path, TIME_SLEEP, TIME_SLEEP_BROWSER_CLOSE, THREAD):
     """
     Args:
@@ -356,7 +350,6 @@ def get_data_twitter_selenium(DAYS_THREAD, BROWSER, driver_path, TIME_SLEEP, TIM
     browser.close()
 
 ## distribute work using multiprocessing
-
 threads = []
 for i in range(NUMBER_THREADS):
     th = multiprocessing.Process(target = get_data_twitter_selenium, kwargs = {'DAYS_THREAD': distributed_days[i],\
@@ -372,7 +365,6 @@ for th in threads:
     th.join()
 
 ## merge the selenium csv files into one file
-
 df_browser = pd.DataFrame(columns=['tweet_text_material', 'text', 'replies_count', 'retweet_count', 'favorite_count', 'tweet_url',\
                         'created_date', 'video_url', 'video_views', 'screen_name', 'language'])
 files = os.listdir('.')
