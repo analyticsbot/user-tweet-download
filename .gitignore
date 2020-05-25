@@ -1,0 +1,6 @@
+__pycache__
+.vscode
+drivers
+config.py
+*.log
+*.csv

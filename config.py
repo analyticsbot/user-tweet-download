@@ -7,6 +7,7 @@ TIME_SLEEP = 5
 TIME_SLEEP_BROWSER_CLOSE = 2
 
 [TWITTER]
+TWITTER_SEARCH_URL = https://twitter.com/search?q=(from%3A{TWITTER_USER_NAME})%20until%3A{until}%20since%3A{since}&src=typed_query&f=live
 TWITTER_USER_NAME = xxxxxxxxxxxxxxx
 CONSUMER_KEY = xxxxxxxxxxxxxxx
 CONSUMER_SECRET = xxxxxxxxxxxxxxx
