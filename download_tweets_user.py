@@ -1,11 +1,23 @@
-"""Please refer to https://github.com/analyticsbot/user-tweet-download/blob/master/README.md for instru
-ctions to the run the code and understand the variables.
+"""
+Please refer to https://github.com/analyticsbot/user-tweet-download/blob/master/README.md for 
+instructions to the run the code and understand the variables.
 
-Author: analyticsbot
+Author: analyticsbot (analyticsbot.xyz[at]gmail[dot]com)
 
-Objective: Download a user's tweet, avoiding the 3200 limit imposed by Twitter API
+Objective of this program: At the moment, Twitter API has a limit of 3200 while fetching tweets for a user. This program aims at bypassing that limit using
+Selenium browser
 
 Returns: Excel csv with user tweet with corresponding values
+    Tweet text – denoted by text
+    Number of replies to the tweet – denoted by replies_count
+    Number of retweets to the tweet – denoted by retweet_count
+    Number of times this tweet has been favorited – denoted by favorite_count
+    Url of the tweet – denoted by tweet_url
+    Creation date/time of the tweet – denoted by created_date
+    If a video was attached to the tweet, what is the url – denoted by video_url
+    If a video was attached to the tweet, how many times it is viewed – denoted by video_views
+    The twitter username – denoted by screen_name
+    The language of the tweet – denoted by language
 """
 
 ## imports
