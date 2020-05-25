@@ -1,6 +1,6 @@
 __pycache__
 .vscode
 drivers
-config.py
+download_tweets_user_old.ipynb
 *.log
 *.csv
