@@ -391,7 +391,6 @@ auth.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 api = tweepy.API(auth, wait_on_rate_limit=True, wait_on_rate_limit_notify=True)
 
 ## merge API csv file and browser file
-
 if GET_REPLIES_COUNT:
     df_api['tweet_id'] = df_api['tweet_url'].apply(lambda x:int(x.split('/')[-1][:-1]))
     df_browser['tweet_id'] = df_browser['tweet_url'].apply(lambda x:int(x.split('/')[-1][:-1]))
